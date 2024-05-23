@@ -14,11 +14,30 @@ typedef struct employee
 void readData(int n, employee_t* s)
 {
     // Add your code here
+       for (int i = 0; i < n; i++) {
+        printf("Enter details for employee %d\n", i + 1);
+        printf("Enter Employee ID: ");
+        scanf("%d", &(s[i].empId));
+        printf("Enter Name: ");
+        scanf(" %[^\n]", s[i].Name);
+        printf("Enter Designation: ");
+        scanf(" %[^\n]", s[i].Designation);
+        printf("Enter Department: ");
+        scanf(" %[^\n]", s[i].Dept);
+    }
 }
 /* Function to print the employee details*/
 void display(int n, employee_t * s)
 {
     // Add your code here
+        printf("\nEmployee Details:\n");
+    for (int i = 0; i < n; i++) {
+        printf("Employee %d\n", i + 1);
+        printf("Employee ID: %d\n", s[i].empId);
+        printf("Name: %s\n", s[i].Name);
+        printf("Designation: %s\n", s[i].Designation);
+        printf("Department: %s\n\n", s[i].Dept);
+    }
     
 }
 
@@ -28,7 +47,23 @@ int main()
 {
     // Main Function to print the employee details
     // Add your code here
-    
+    int n;
+
+    printf("Enter the number of employees: ");
+    scanf("%d", &n);
+
+    employee_t* employees = (employee_t*)malloc(n * sizeof(employee_t));
+    if (employees == NULL) {
+        printf("Memory allocation failed\n");
+        return 1;
+    }
+
+    readData(n, employees);
+    display(n, employees);
+
+    free(employees);
+
+    return 0;
 
 }
 
