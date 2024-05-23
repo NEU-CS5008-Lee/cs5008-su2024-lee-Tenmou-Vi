@@ -1,5 +1,6 @@
-// name: <your name here>
-// email: <your email here>
+// name: Tianmeng Xia
+// email: tenmousha@gmail.com
+
 
 #include <stdio.h>   // stardard input/output library
 #include <stdbool.h> // standard boolean library: bool, true, false
