@@ -1,5 +1,5 @@
-// name: <your name here>
-// email: <your email here>
+// name: Tianmeng Xia
+// email: xia.tianm@northeastern.edu
 
 #include <stdio.h>   // stardard input/output library
 #include <stdbool.h> // standard boolean library: bool, true, false
@@ -69,39 +69,34 @@ typedef struct q {
 
 // create new empty queue (head and tail are set to NULL)
 queue_t* newQueue() {
-  queue_t* q_p;   // temp pointer to hold newly created queue
+queue_t* q_p = (queue_t*)malloc(sizeof(queue_t));
 
   // ***** INSERT YOUR CODE HERE *****
-  
+    if (q_p != NULL) {
+    q_p->head_p = NULL;
+    q_p->tail_p = NULL;
+  }
   return q_p;
 };
 
 // is the queue empty?
 bool isEmpty(queue_t* q_p) {
-  bool b = true;   // temporary bool to hold return value - initalize to default value
-
-  // ***** INSERT YOUR CODE HERE *****
-  
-  return b;
+  return (q_p->head_p == NULL);
 };
 
 // function to add a new node with data d to tail of the queue
 void enqueue(queue_t* q_p, int d) {
-  node_t* n_p = NULL; // temp node pointer
-  
+   node_t* n_p = newNode(d);
+
   if (q_p != NULL) {
-
     if (isEmpty(q_p)) {
-      // queue is empty so insertion is easy
-
-      // ***** INSERT YOUR CODE HERE *****
-
+      q_p->head_p = n_p;
+      q_p->tail_p = n_p;
     } else {
-      // queue is not empty
-
-      // ***** INSERT YOUR CODE HERE *****
-
-    }    
+      q_p->tail_p->right_p = n_p;
+      n_p->left_p = q_p->tail_p;
+      q_p->tail_p = n_p;
+    }
   }
   
   return;
@@ -122,12 +117,17 @@ int dequeue(queue_t* q_p) {
           // only one node in the queue, clear queue head and tail 
 
           // ***** INSERT YOUR CODE HERE *****
+        q_p->head_p = NULL;
+        q_p->tail_p = NULL;
 	  
 	} else {
           // mulitple nodes in queue, clean up head pointer and new head of queue
 
 	  // ***** INSERT YOUR CODE HERE *****
-	  
+        q_p->head_p = n_p->right_p;
+        if (q_p->head_p != NULL) {
+          q_p->head_p->left_p = NULL;
+        }  
 	}
 	
 	freeNode(n_p);  // free up the node that was dequeued
