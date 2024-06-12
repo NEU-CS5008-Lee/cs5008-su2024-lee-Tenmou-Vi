@@ -1,5 +1,5 @@
-// name: <your name here>
-// email: <your email here>
+// Tianmeng Xia
+// tenmousha@gmail.com
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -39,7 +39,49 @@ void mergeIt(
 	   int rightStop) {
   
 
-  // ADD YOUR CODE HERE
+  // ADD YOUR CODE HER
+  int leftSize = leftStop - leftStart + 1;
+    int rightSize = rightStop - rightStart + 1;
+    char* leftArray = (char*)malloc(leftSize * sizeof(char));
+    char* rightArray = (char*)malloc(rightSize * sizeof(char));
+
+ 
+    for (int i = 0; i < leftSize; i++)
+        leftArray[i] = data[leftStart + i];
+    for (int i = 0; i < rightSize; i++)
+        rightArray[i] = data[rightStart + i];
+
+    int i = 0, j = 0, k = leftStart;
+
+ 
+    while (i < leftSize && j < rightSize) {
+        if (leftArray[i] <= rightArray[j]) {
+            data[k] = leftArray[i];
+            i++;
+        } else {
+            data[k] = rightArray[j];
+            j++;
+        }
+        k++;
+    }
+
+   
+    while (i < leftSize) {
+        data[k] = leftArray[i];
+        i++;
+        k++;
+    }
+
+   
+    while (j < rightSize) {
+        data[k] = rightArray[j];
+        j++;
+        k++;
+    }
+
+   
+    free(leftArray);
+    free(rightArray);
   
   return;
 }

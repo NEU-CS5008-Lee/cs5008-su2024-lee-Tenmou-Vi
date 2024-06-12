@@ -1,5 +1,5 @@
-// name: <your name here>
-// email: <your email here>
+// Tianmeng Xia
+// tenmousha@gmail.com
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -31,13 +31,35 @@ char upperChar(char c){
   }
 }
 
+int partition(char* data, int left, int right) {
+    char pivot = data[right];
+    int i = left - 1;
+
+    for (int j = left; j < right; j++) {
+        if (data[j] <= pivot) {
+            i++;
+            char temp = data[i];
+            data[i] = data[j];
+            data[j] = temp;
+        }
+    }
+    
+    char temp = data[i + 1];
+    data[i + 1] = data[right];
+    data[right] = temp;
+    return (i + 1);
+}
 
 
 // pick pivot and then sort small and big parts 
 void quicky(char* data, int left, int right) {
 
   // ADD YOUR CODE HERE
-
+    if (left < right) {
+        int pi = partition(data, left, right);
+        quicky(data, left, pi - 1);
+        quicky(data, pi + 1, right);
+    }
   return;
 }
 
