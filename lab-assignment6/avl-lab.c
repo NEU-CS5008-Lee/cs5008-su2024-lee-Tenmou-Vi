@@ -129,9 +129,15 @@ void freenode(node_t *p){
 node_t* Insert(node_t* root, int data)
 {
     
-    
-    //insert your code here
+     if(root == NULL)
+	     return NewNode(data);
 
+    if(data < root->data)
+        root->left = Insert(root->left, data);
+    else if(data > root->data)
+        root->right = Insert(root->right, data);
+    else
+        return root;
 
     /*updating the height after insertion of the node*/
     root->height = max(height(root->left),height(root->right))+1;
