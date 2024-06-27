@@ -12,21 +12,28 @@ int BUCKET_SIZE = 10;
 struct node {
 
     // Add your code here
-
+    int key;
+    int value;
+    struct node* next;
+    struct node* prev;
 };
 
 // bucket struct
 struct bucket{
 
     // Add your code here
-
+ struct node* head;
 };
 
 // create a new node
 struct node* createNode(int key, int value){
 
     // Add your code here
-
+    struct node* newNode = (struct node*)malloc(sizeof(struct node));
+    newNode->key = key;
+    newNode->value = value;
+    newNode->next = NULL;
+    newNode->prev = NULL;
     return newNode;
 }
 
@@ -38,8 +45,18 @@ int hashFunction(int key){
 //  insert a new key
 void add(int key, int value){
     int hashIndex = hashFunction(key);
-    
-    // Add your code here
+        struct node* newNode = createNode(key, value);
+
+    if (hashTable[hashIndex].head == NULL) {
+        hashTable[hashIndex].head = newNode;
+    } else {
+        struct node* temp = hashTable[hashIndex].head;
+        while (temp->next != NULL) {
+            temp = temp->next;
+        }
+        temp->next = newNode;
+        newNode->prev = temp;
+    }
 
 }
 
@@ -48,15 +65,38 @@ void remove_key(int key){
     int hashIndex = hashFunction(key);
 
     // Add your code here
+    struct node* temp = hashTable[hashIndex].head;
 
+    while (temp != NULL) {
+        if (temp->key == key) {
+            if (temp->prev != NULL) {
+                temp->prev->next = temp->next;
+            } else {
+                hashTable[hashIndex].head = temp->next;
+            }
+            if (temp->next != NULL) {
+                temp->next->prev = temp->prev;
+            }
+            free(temp);
+            return;
+        }
+        temp = temp->next;
+    }
 }
 
 // search a value using a key
 void search(int key){
     int hashIndex = hashFunction(key);
-    struct node* node = hashTable[hashIndex].head;
+     struct node* temp = hashTable[hashIndex].head;
 
-    // Add your code here
+    while (temp != NULL) {
+        if (temp->key == key) {
+            printf("Key: %d, Value: %d\n", key, temp->value);
+            return;
+        }
+        temp = temp->next;
+    }
+    printf("Key %d not found\n", key);
 
 }
 

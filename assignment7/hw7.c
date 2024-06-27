@@ -1,5 +1,5 @@
-// name: <your name here>
-// email: <your email here>
+// name: Tianmeng Xia
+// email: tenmousha@gmail.com
 
 // format of document is a bunch of data lines beginning with an integer (rank which we ignore)
 // then a ',' followed by a double-quoted string (city name)
@@ -99,6 +99,65 @@ int main () {
 
 
 	  // ADD YOUR CODE HERE
+	  case S1:
+            if (isDigit(inputLine[nextChar])) {
+              appendChar(temp, inputLine[nextChar]);
+            } else if (inputLine[nextChar] == ',') {
+              state = S2;
+              lineNum = atoi(temp); 
+              strcpy(temp, ""); 
+            } else {
+              state = ERRORSTATE;
+            }
+            break;
+
+          case S2:
+            if (inputLine[nextChar] == '"') {
+              state = S3;
+            } else {
+              state = ERRORSTATE;
+            }
+            break;
+
+          case S3:
+            if (inputLine[nextChar] != '"') {
+              appendChar(cityStr, inputLine[nextChar]);
+            } else {
+              state = S4;
+            }
+            break;
+
+          case S4:
+            if (inputLine[nextChar] == ',') {
+              state = S5;
+            } else {
+              state = ERRORSTATE;
+            }
+            break;
+
+          case S5:
+            if (inputLine[nextChar] == '"') {
+              state = S6;
+            } else if (inputLine[nextChar] == '(') {
+              state = ACCEPTSTATE;
+              popInt = 0; 
+            } else {
+              state = ERRORSTATE;
+            }
+            break;
+
+          case S6:
+            if (isDigit(inputLine[nextChar])) {
+              appendChar(temp, inputLine[nextChar]);
+            } else if (inputLine[nextChar] == ',' || inputLine[nextChar] == '"') {
+              if (inputLine[nextChar] == '"') {
+                state = ACCEPTSTATE;
+                popInt = atoi(temp);
+              }
+            } else {
+              state = ERRORSTATE;
+            }
+            break;
  
 	    
 	  case ACCEPTSTATE:
