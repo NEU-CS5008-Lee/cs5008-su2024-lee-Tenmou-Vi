@@ -1,5 +1,5 @@
-//enter your name here
-//enter your email here
+//Tianmeng Xiae
+//tenmousha@gmail.com
 
 #include <stdio.h>
 #include <string.h>
@@ -8,7 +8,15 @@
 /* function to encrypt the data*/
 void encrypt(char text[], int key)
 {
-    // Add your code here
+    int i;
+    for(i = 0; i < strlen(text); i++)
+    {
+        if(isalpha(text[i]))
+        {
+            char offset = isupper(text[i]) ? 'A' : 'a';
+            text[i] = (text[i] - offset + key) % 26 + offset;
+        }
+    }
 }
 
 /*function to decrypt the data*/
@@ -16,7 +24,15 @@ void decrypt(char text[],int key)
 {
     
     // Add your code here
-    
+    int i;
+    for(i = 0; i < strlen(text); i++)
+    {
+        if(isalpha(text[i]))
+        {
+            char offset = isupper(text[i]) ? 'A' : 'a';
+            text[i] = (text[i] - offset - key + 26) % 26 + offset;
+        }
+    } 
 }
 
 
