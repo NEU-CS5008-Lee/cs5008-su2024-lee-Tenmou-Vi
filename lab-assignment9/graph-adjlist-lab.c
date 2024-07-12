@@ -1,5 +1,5 @@
-//enter your email here
-//enter your name here
+//Tianmeng Xia
+//tenmousha@gmail.com
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -59,28 +59,41 @@ int numberoflistspresent(Graph* graph)
 int search(char* name, Graph* graph)
 {
     int i;
-    for(i=0;i<numberOfListspresent(graph);i++){
-        if(strcmp(graph->adjLists[i]->name,name)==0){
-            return i;    //position of person in the list
+    for (i = 0; i < numberoflistspresent(graph); i++) {
+        if (strcmp(graph->adjLists[i]->name, name) == 0) {
+            return i;
         }
-    
+
     }
-    return -1; //person not found in the list
+    return -1;
 }
 
 /* adds an edge to an undirected graph */
 void addConnection(Graph* graph, char* person, char* friend){
     int p = search(person, graph);//search for the person in the graph,index or position
+    int f = search(friend, graph);
     int n=numberoflistspresent(graph);
+    if (p == -1) {
+        p = n;
+        graph->adjLists[p] = createNode(person);
+        n++;
+    }
+    
+    if (f == -1) {
+        f = n;
+        graph->adjLists[f] = createNode(friend);
+        n++;
+    }
     
     
+    node* newNode = createNode(friend);
+    newNode->next = graph->adjLists[p]->next;
+    graph->adjLists[p]->next = newNode;
     
-    //insert your code here
-    
-    
-    
-    
-    
+   
+    newNode = createNode(person);
+    newNode->next = graph->adjLists[f]->next;
+    graph->adjLists[f]->next = newNode;
 }
 
 /* function to print the adjacency list representation of a graph */
