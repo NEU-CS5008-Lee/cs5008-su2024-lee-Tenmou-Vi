@@ -1,5 +1,5 @@
-// name: <your name here>
-// email: <your email here>
+// name: Tianmeng Xia
+// email: tenmousha@gmail.com
 
 
 #include <stdio.h>
@@ -229,6 +229,14 @@ int main () {
   while (!isEmpty(q)) {
 
     // INSERT YOUR CODE HERE
+     current = dequeue(q);
+
+    if (done[current]) {
+      continue;
+    }
+
+    done[current] = true;
+    printf("%d ", current);
     
   }
 
