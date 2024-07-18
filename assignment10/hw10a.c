@@ -1,5 +1,5 @@
-// name: <your name here>
-// email: <your email here>
+// name: Tianmeng Xia
+// email: tenmousha@gmail.com
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -125,86 +125,77 @@ void printSet(bool s[], int size) {
   printf("\n");
 }
 
-  
-int main () {
+int main() {
+    graph_t E = {
+        {0, 8, 10, 0, 0, 15},
+        {0, 0, 11, 16, 0, 0},
+        {0, 0, 0, 12, 0, 3},
+        {0, 0, 0, 0, 0, 0},
+        {0, 0, 0, 7, 0, 0},
+        {0, 0, 0, 0, 10, 0},
+    };
 
-  // define graph as association matrix
-  graph_t E = {
-    //0  1  2  3  4  5   <- destination vertex
-    { 0, 8,10, 0, 0,15}, // vertex 0 ->
-    { 0, 0,11,16, 0, 0}, // vertex 1 ->
-    { 0, 0, 0,12, 0, 3}, // vertex 2 ->
-    { 0, 0, 0, 0, 0, 0}, // vertex 3 ->
-    { 0, 0, 0, 7, 0, 0}, // vertex 4 ->
-    { 0, 0, 0, 0,10, 0}, // vertex 5 ->
-  };
+    bool Q[GSIZE];
+    bool S[GSIZE];
+    trow_t T[GSIZE];
 
-  // Q is "set" of vertices - true if vertex is in set
-  bool Q[GSIZE];
+    int u;
+    int d;
+    int i;
+    int v;
 
-  // S is the "set" of neighbors of a vertex
-  bool S[GSIZE];
-
-  // T contains distance information to each node from start (0)
-  trow_t T[GSIZE];
-
-  int u; // next node being processeed
-  int d; // distance variable
-  int i; // loop variable
-  int v; // vertext variable
-
-  // DIJKSTRA: create table T[V] = <infinity, undefined>
-  // ********** INSERT YOUR CODE HERE **********
-
-  // DIJKSTRA: T[source].distance = 0
-  // ********** INSERT YOUR CODE HERE **********
-
-  // DIJKSTRA: Create set Q = set(V)
-  // ********** INSERT YOUR CODE HERE **********
-
-
-  // DIJKSTRA: while Q is not empty
-  while (setNotEmpty(Q,GSIZE)) {
-    // DIJKSTRA: u = min q in Q of T[q].distance
-    // ********** INSERT YOUR CODE HERE **********
-
-    // check for errors
-    if (u<0) {
-      printf("*** INVALID NODE FOUND while finding min distance\n");
-      return -1;
+    // DIJKSTRA: create table T[V] = <infinity, undefined>
+    for (i = 0; i < GSIZE; i++) {
+        T[i].distance = INFINITY;
+        T[i].lastStep = -1;
     }
 
-    // DIJKSTRA: S = neighbors(u)
-    // ********** INSERT YOUR CODE HERE **********
+    // DIJKSTRA: T[source].distance = 0
+    T[0].distance = 0;
 
-
-    // DIJKSTRA: Q = Q – u
-    // ********** INSERT YOUR CODE HERE **********
-
-
-    // DIJKSTRA: for each neighbor v of u (ignore vertices that we have already finished)
-    for (v=0; v<GSIZE; v++) {
-      if (S[v] && Q[v]) {
-        // DIJKSTRA: d = T[u].distance + E[u,v]
-        // ********** INSERT YOUR CODE HERE **********
-
-
-        // DIJKSTRA: if (d < T[v].distance)
-	if (d < T[v].distance) {
-  	  // DIJKSTRA: //shorter path found
-  	  // DIJKSTRA: T[v].distance = d
-          // ********** INSERT YOUR CODE HERE **********
-
-	  // DIJKSTRA: T[v].lastStep = u
-          // ********** INSERT YOUR CODE HERE **********
-	}
-      }
+    // DIJKSTRA: Create set Q = set(V)
+    for (i = 0; i < GSIZE; i++) {
+        Q[i] = true;
     }
-    // DIJKSTRA: //done with u
 
-  }
+    // DIJKSTRA: while Q is not empty
+    while (setNotEmpty(Q, GSIZE)) {
+        // DIJKSTRA: u = min q in Q of T[q].distance
+        u = minDistance(T, GSIZE, Q);
 
-  printTable(T, GSIZE, 0);
-   
-  return 0;
+        // check for errors
+        if (u < 0) {
+            printf("*** INVALID NODE FOUND while finding min distance\n");
+            return -1;
+        }
+
+        // DIJKSTRA: S = neighbors(u)
+        setNeighbors(S, E, GSIZE, u);
+
+        // DIJKSTRA: Q = Q – u
+        removeVertex(u, Q, GSIZE);
+
+        // DIJKSTRA: for each neighbor v of u (ignore vertices that we have already finished)
+        for (v = 0; v < GSIZE; v++) {
+            if (S[v] && Q[v]) {
+                // DIJKSTRA: d = T[u].distance + E[u,v]
+                d = T[u].distance + E[u][v];
+
+                // DIJKSTRA: if (d < T[v].distance)
+                if (d < T[v].distance) {
+                    // DIJKSTRA: //shorter path found
+                    // DIJKSTRA: T[v].distance = d
+                    T[v].distance = d;
+
+                    // DIJKSTRA: T[v].lastStep = u
+                    T[v].lastStep = u;
+                }
+            }
+        }
+        // DIJKSTRA: //done with u
+    }
+
+    printTable(T, GSIZE, 0);
+
+    return 0;
 }

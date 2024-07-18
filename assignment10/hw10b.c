@@ -1,5 +1,5 @@
-// name: <your name here>
-// email: <your email here>
+// Tianmeng Xia
+// tenmousha@gmail.com
 
 #include <stdio.h>
 #include <stdlib.h> 		// for qsrot
@@ -104,8 +104,25 @@ int kruskal(Fedge e[],int n) {
 
    // Add Your code here
 
-   return mst_e; 
+    for (i = 0; i < VSIZE; i++) {
+        make_set(i);
+    }
+
+    for (i = 0; i < edge_num; i++) {
+        u = find_set(e[i].u);
+        v = find_set(e[i].v);
+        if (u != v) {
+            printf("Edge (%d, %d) with weight %d included in MST.\n", e[i].u, e[i].v, e[i].key);
+            mst_e += e[i].key;
+            union_set(u, v);
+            mst_e_n++;
+            if (mst_e_n == VSIZE - 1) break;
+        }
+    }
+
+    return mst_e;
 }
+
 
 int main() {
     int mst;  
@@ -125,7 +142,19 @@ int main() {
     int i,j;
 
     // Add your code here to create edge_set
+    for (i = 0; i < VSIZE; i++) {
+        for (j = i + 1; j < VSIZE; j++) {
+            if (graph[i][j] != INF) {
+                edge_set[edge_num].u = i;
+                edge_set[edge_num].v = j;
+                edge_set[edge_num].key = graph[i][j];
+                edge_num++;
+            }
+        }
+    }
 
     mst=kruskal(edge_set, VSIZE); 
     printf("Min cost is %d.\n", mst);
+
+    return 0;
 }
