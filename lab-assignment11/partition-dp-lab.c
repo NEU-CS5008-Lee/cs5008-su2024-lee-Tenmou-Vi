@@ -1,4 +1,5 @@
-
+//Tianmeng Xia
+//tenmousha@gmail.com
 #include<stdio.h>
 #define MAXN 45              /* largest number of books */
 #define MAXK 10              /* largest number of dividers */
@@ -84,7 +85,18 @@ void partition(int s[], int n, int k)
 
 
     /* Add your code here */
-
+    for (j = 2; j <= k; j++) {  /* number of partitions */
+     for (i = 2; i <= n; i++) {  /* number of books */
+       m[i][j] = MAXINT;
+         for (x = 1; x < i; x++) {
+              cost = max(m[x][j - 1], p[i] - p[x]);
+                if (m[i][j] > cost) {
+                    m[i][j] = cost;
+                    d[i][j] = x;
+                }
+            }
+        }
+    }
 
 
     print_matrix(m,n,k);
