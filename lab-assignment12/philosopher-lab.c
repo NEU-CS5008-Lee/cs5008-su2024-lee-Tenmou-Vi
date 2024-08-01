@@ -1,11 +1,11 @@
-//Enter your name here
-//Enter your email here
+//Tianmeng Xia
+//tenmousha@gmail.com
 #include <stdio.h>
 #include <unistd.h>
 #include <pthread.h>
 pthread_mutex_t chopstick[5];//lock variable
 
-// Thread to be executed
+
 void *philosopher(void *x)
 {
     //Treat variable x as a pointer to an int and then extract the value into n
@@ -13,12 +13,33 @@ void *philosopher(void *x)
     int n=*a;
     
     /*-----Insert your code here----*/
-    
-    
+        while (1) {
+        printf("Philosopher %d is thinking.\n", n);
+        sleep(1);
+        printf("Philosopher %d is hungry.\n", n);
+        
+        pthread_mutex_lock(&chopstick[n]);
+        printf("Philosopher %d picked up chopstick %d.\n", n, n);
+
+        pthread_mutex_lock(&chopstick[(n+1) % 5]);
+        printf("Philosopher %d picked up chopstick %d.\n", n, (n+1) % 5);
+
+        printf("Philosopher %d is eating.\n", n);
+        sleep(1);
+
+        pthread_mutex_unlock(&chopstick[(n+1) % 5]);
+        printf("Philosopher %d put down chopstick %d.\n", n, (n+1) % 5);
+
+        pthread_mutex_unlock(&chopstick[n]);
+        printf("Philosopher %d put down chopstick %d.\n", n, n);
+       
+    printf("Philosopher %d has finished.\n", n);
+    return NULL;
+    }
 }
 
 
-/*------------ Main Program---------*/
+/*------------Main Program---------*/
 int main()
 {
     int i,val[5];
