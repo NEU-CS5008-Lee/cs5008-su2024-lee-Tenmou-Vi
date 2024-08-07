@@ -1,5 +1,5 @@
-// name: <your name here>
-// email: <your email here>
+// name: Tianmeng Xia
+// email: tenmousha@gmail.com
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -52,6 +52,12 @@ int getcount(char *rle)
     //
     // Add your code here to return count for the current char
     //
+     while (isdigit(*rle))
+    {
+        count = count * 10 + (*rle - '0');
+        rle++;
+    }
+    return count;
 
     return count;
 }
@@ -68,7 +74,34 @@ char *decode_rle(char *rle, char *str)
     // Add your code here to decode rle
     //
     //
-
+     while (ptr < ptrend)
+    {
+        if (isalpha(*ptr))
+        {
+            char ch = *ptr;
+            ptr++;
+            if (isdigit(*ptr))
+            {
+                count = getcount(ptr);
+                while (isdigit(*ptr))
+                {
+                    ptr++;
+                }
+                for (j = 0; j < count; j++)
+                {
+                    str[i++] = ch;
+                }
+            }
+            else
+            {
+                str[i++] = ch;
+            }
+        }
+        else
+        {
+            ptr++;
+        }
+    }
     str[i] = '\0';
     return str;
 }
